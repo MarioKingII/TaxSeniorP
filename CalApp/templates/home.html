@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="own">Do you own a house:</label>
+    <input type="checkbox" name="own" value="True">
+    <br>
+    <label for="interest_taxes">Total interest and taxes paid:</label>
+    <input type="number" name="interest_taxes">
+    <br>
+    <button type="submit">Next</button>
+  </form>
+{% endblock %}

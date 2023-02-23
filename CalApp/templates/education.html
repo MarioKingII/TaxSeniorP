@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="enrolled">Enrolled in undergraduate program:</label>
+    <input type="checkbox" name="enrolled" value="True">
+    <br>
+    <label for="college_expenses">College expenses:</label>
+    <input type="number" name="college_expenses">
+    <br>
+    <label for="scholarships_received">Scholarships received:</label>
+    <input type="number" name="scholarships_received">
+    <br>
+    <button type="submit">Next</button>
+  </form>
+{% endblock %}
+

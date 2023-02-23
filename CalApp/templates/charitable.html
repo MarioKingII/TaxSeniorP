@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="charitable_contributions">Total or estimated charitable contributions:</label>
+    <input type="number" name="charitable_contributions">
+    <br>
+    <button type="submit">Next</button>
+  </form>
+{% endblock %}
+

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="medical_expenses">Total or estimated medical expenses for the year:</label>
+    <input type="number" name="medical_expenses">
+    <br>
+    <button type="submit">Next</button>
+    
+    </form>
+{% endblock %}
