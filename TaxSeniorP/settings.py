@@ -79,6 +79,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "Tax": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "tax_brackets.db",
     }
 }
 

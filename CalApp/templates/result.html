@@ -1,4 +1,23 @@
-<h1>Result</h1>
-<p>Tax: {{ tax }}</p>
-<p>federal_tax: {{federal_tax}</p>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Result</h1>
+    <p>federal_tax: {{federal_tax}}</p>
+    <p>retun_itemized: {{retun_itemized}}</p>
+    <p>retun_stand: {{retun_stand}}</p>
+    <p>tax_rate_s: {{tax_rate_s}}</p>
+    <p>tax_rate_i: {{tax_rate_i}}</p>
+    <p>filling_status: {{filling_status}}</p>
+    <p>retirement_contributions: {{retirement_contributions}}</p>
+    <p>charitable_contributions: {{charitable_contributions}}</p>
+    <p>college_expenses: {{college_expenses}}</p>
+    <p>taxes_registration: {{taxes_registration}}</p>
+    <p>interest_taxes: {{interest_taxes}}</p>
+    <p>medical_expenses: {{medical_expenses}}</p>
+    <p>TS: {{TS}}</p>
+    <p>TI: {{TI}}</p>
+{% endblock %}
+
+
+
 
