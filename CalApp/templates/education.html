@@ -3,16 +3,27 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    <p></p>
     <label for="enrolled">Enrolled in undergraduate program:</label>
     <input type="checkbox" name="enrolled" value="True">
     <br>
-    <label for="college_expenses">College expenses:</label>
+    <p></p>
+    <label for="college_expenses">College expenses:</label><p> Enter the total projected amount will pay on tution 
+      or the amount on your 1098-T if you have received.</p>
+
     <input type="number" name="college_expenses">
     <br>
-    <label for="scholarships_received">Scholarships received:</label>
+    <label for="student_loan_interest">Student Loan Interest:</label><p> Enter the total projected amount will pay on interest  
+      on your student loan.</p>
+    <input type="number" name="student_loan_interest">
+    <br>    
+    <label for="scholarships_received">Scholarships received:</label><p> Enter the total projected amount will receive on   
+      scholarships.</p>
     <input type="number" name="scholarships_received">
     <br>
     <button type="submit">Next</button>
+    <button type="button" onclick="history.back()">Back</button>
+
   </form>
 {% endblock %}
 

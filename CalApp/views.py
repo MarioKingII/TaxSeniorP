@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Demographics, Income, Taxes, Education, Home, Vehicle, Medical, Charitable, Retirement,  TaxCalculation
 from .form import FillingStatusForm
 
-
-# Create your views here.
 
 def demographics_view(request):
     filling_status = None
@@ -23,13 +22,12 @@ def demographics_view(request):
 def income_view(request):
     demographics_id = request.session.get('demographics_id')
     gross_income = 0 # Define gross_income here
-
     if request.method == 'POST':
         gross_income = request.POST['gross_income']
         income = Income.objects.create(demographics_id=demographics_id, gross_income=gross_income)
         request.session['income_id'] = income.id
         return redirect(taxes_view)
-    return render(request, 'income.html', {'gross_income': gross_income })
+    return render(request, 'income.html', {'gross_income': gross_income})
 
 def taxes_view(request):
     demographics_id = request.session.get('demographics_id')
@@ -44,11 +42,13 @@ def taxes_view(request):
 def education_view(request):
     demographics_id = request.session.get('demographics_id')
     college_expenses = 0
+    student_loan_interest = 0
     if request.method == 'POST':
         enrolled = request.POST.get('enrolled', False)
         college_expenses = request.POST.get('college_expenses')
+        student_loan_interest = request.POST.get('student_loan_interest')
         scholarships_received = request.POST.get('scholarships_received')
-        education = Education.objects.create(demographics_id=demographics_id, enrolled=enrolled, college_expenses=college_expenses, scholarships_received=scholarships_received)
+        education = Education.objects.create(demographics_id=demographics_id, enrolled=enrolled, college_expenses=college_expenses, student_loan_interest=student_loan_interest, scholarships_received=scholarships_received)
         request.session['education_id'] = education.id
         return redirect(home_view)
     return render(request, 'education.html')
@@ -129,6 +129,9 @@ def result(request):
         federal_tax = taxes.federal_tax
         charitable_contributions = charitable.charitable_contributions
         college_expenses = education.college_expenses
+        student_loan_interest = education.student_loan_interest
+        name = demographics.name
+
         taxes_registration = vehicle.taxes_registration
         interest_taxes = home.interest_taxes
         medical_expenses = medical.medical_expenses
@@ -140,6 +143,7 @@ def result(request):
             filling_status=filling_status, 
             charitable_contributions=charitable_contributions,
             college_expenses=college_expenses,
+            student_loan_interest=student_loan_interest,
             taxes_registration=taxes_registration, 
             interest_taxes=interest_taxes,
             medical_expenses=medical_expenses,
@@ -151,18 +155,42 @@ def result(request):
         tax_rate_s, retun_stand, TS = tax_s
         tax_rate_i, return_itemized, TI = tax_i
 
+        tax_rate_i = tax_rate_i * 100
+        tax_rate_s = tax_rate_s * 100
+
+        message_s = 'owe'
+        if retun_stand < 0:
+            retun_stand = retun_stand * -1
+            message_s = 'receive'
+
+        message_i = 'owe'
+        if return_itemized < 0:
+            return_itemized = return_itemized * -1
+            message_i = 'receive'
+        
+        IvsS = 'itemized'
+        if retun_stand > return_itemized:
+             IvsS = 'standard deduction'
+
+
         return render(request, 'result.html', {'retun_itemized': return_itemized,
                                             'retun_stand': retun_stand,
                                             'federal_tax': federal_tax,
                                             'filling_status':filling_status,
-                                            'tax_rate_s':tax_rate_s,
-                                            'tax_rate_i': tax_rate_i,
-                                            'retirement_contributions':retirement_contributions,
-                                            'charitable_contributions':charitable_contributions,
-                                            'college_expenses':college_expenses,
-                                            'taxes_registration':taxes_registration, 
-                                            'interest_taxes':interest_taxes,
-                                            'medical_expenses':medical_expenses,
+                                            'tax_rate_s':'{:.0f}%'.format(tax_rate_s),
+                                            'tax_rate_i': '{:.0f}%'.format(tax_rate_i),
+                                            # 'retirement_contributions':retirement_contributions,
+                                            # 'charitable_contributions':charitable_contributions,
+                                            # 'college_expenses':college_expenses,
+                                            # 'taxes_registration':taxes_registration, 
+                                            # 'interest_taxes':interest_taxes,
+                                            # 'medical_expenses':medical_expenses,
                                             'TS':TS,
-                                            'TI':TI})
+                                            'TI':TI,
+                                            'message_i': message_i,
+                                            'message_s': message_s,
+                                            'name':name,
+                                            'IvsS':IvsS
+
+                                            })
     return render(request, 'result.html')

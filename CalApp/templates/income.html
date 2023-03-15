@@ -3,9 +3,15 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    <p>Enter your projected total gross income, or if you already have have a 
+      W4 you can enter the amount on field #1
+      If you have more that a W4 please enter add the amounts, and enter the total combined.
+    </p>
     <label for="gross_income">Total gross income:</label>
     <input type="number" name="gross_income" required>
     <br>
     <button type="submit">Next</button>
+    <button type="button" onclick="history.back()">Back</button>
+    
   </form>
 {% endblock %}

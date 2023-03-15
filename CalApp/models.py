@@ -1,5 +1,4 @@
 from django.db import models
-import csv
 import sqlite3
 
 class TaxCalculation(models.Model):
@@ -14,15 +13,15 @@ class TaxCalculation(models.Model):
     married_end = models.DecimalField(max_digits=10, decimal_places=2)
     charitable_contributions = models.FloatField()
     college_expenses = models.FloatField()
+    student_loan_interest = models.FloatField()
     taxes_registration = models.FloatField()
     interest_taxes = models.FloatField()
     medical_expenses = models.FloatField()
     retirement_contributions = models.FloatField()
-
+ 
     def calculate_standard_tax(self):
         
-        
-        taxable_income_stand = self.gross_income - self.federal_tax - self.standard_deduction
+        taxable_income_stand = self.gross_income - self.standard_deduction
         
         conn = sqlite3.connect('tax_brackets.db')
         cursor = conn.cursor()
@@ -43,17 +42,20 @@ class TaxCalculation(models.Model):
         conn.close()
         
         to_view =[]
-        return_Stand = taxable_income_stand * tax_rate
+        return_Stand = (taxable_income_stand * tax_rate) - self.federal_tax
         to_view.append(tax_rate)
         to_view.append(return_Stand)
         to_view.append(taxable_income_stand)
 
-
         return to_view
 
     def calculate_itemized_tax(self):
-         
-        taxable_income_itemized = self.gross_income- self.federal_tax - self.charitable_contributions - self.college_expenses - self.taxes_registration - self.interest_taxes - self.medical_expenses - self.retirement_contributions
+
+        deductible_medical_expenses = self.gross_income - self.student_loan_interest * 0.075
+        if self.medical_expenses < deductible_medical_expenses:
+            self.medical_expenses = 0
+
+        taxable_income_itemized = self.gross_income - self.charitable_contributions - self.college_expenses - self.taxes_registration - self.interest_taxes - self.medical_expenses - self.retirement_contributions
 
         conn = sqlite3.connect('tax_brackets.db')
         cursor = conn.cursor()
@@ -74,7 +76,7 @@ class TaxCalculation(models.Model):
         conn.close()
         
         to_view =[]
-        return_Itemized = taxable_income_itemized * tax_rate
+        return_Itemized = (taxable_income_itemized * tax_rate) - self.federal_tax
         to_view.append(tax_rate)
         to_view.append(return_Itemized)
         to_view.append(taxable_income_itemized)
@@ -105,6 +107,7 @@ class Education(models.Model):
     demographics = models.ForeignKey(Demographics, on_delete=models.CASCADE)
     enrolled = models.BooleanField()
     college_expenses = models.FloatField(blank=True, null=True)
+    student_loan_interest = models.FloatField(blank=True, null=True)
     scholarships_received = models.FloatField(blank=True, null=True)
 
 class Home(models.Model):

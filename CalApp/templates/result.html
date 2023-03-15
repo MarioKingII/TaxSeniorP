@@ -2,20 +2,29 @@
 
 {% block content %}
     <h1>Result</h1>
+
+    <p>Thank you for providing all the information {{name}}. Using the information you have provided us, a 
+        projection of what you may owed or receive has been made. Here are your results:<p>
     <p>federal_tax: {{federal_tax}}</p>
-    <p>retun_itemized: {{retun_itemized}}</p>
-    <p>retun_stand: {{retun_stand}}</p>
+    <p>retun_itemized: you may {{message_i}} {{retun_itemized}}</p>
+    <p>retun_stand: you may {{message_s}} {{retun_stand}}</p>
     <p>tax_rate_s: {{tax_rate_s}}</p>
     <p>tax_rate_i: {{tax_rate_i}}</p>
     <p>filling_status: {{filling_status}}</p>
-    <p>retirement_contributions: {{retirement_contributions}}</p>
+    <!-- <p>retirement_contributions: {{retirement_contributions}}</p>
     <p>charitable_contributions: {{charitable_contributions}}</p>
     <p>college_expenses: {{college_expenses}}</p>
     <p>taxes_registration: {{taxes_registration}}</p>
     <p>interest_taxes: {{interest_taxes}}</p>
-    <p>medical_expenses: {{medical_expenses}}</p>
+    <p>medical_expenses: {{medical_expenses}}</p> -->
     <p>TS: {{TS}}</p>
     <p>TI: {{TI}}</p>
+    <p>As you can see, and according with the information you provided, and {{IvsS}} filing may be benefecial for you</p>
+    <button type="button" onclick="history.back()">Back</button>
+
+
+
+
 {% endblock %}
 
 
