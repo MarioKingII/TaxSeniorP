@@ -70,7 +70,7 @@ class TaxCalculation(models.Model):
             tax_bracket = cursor.fetchone()
 
         # Calculate the tax amount based on the retrieved tax bracket and the taxable income
-        tax_rate, _, _, _, _ = tax_bracket
+        tax_rate, _, _, _, _  = tax_bracket
 
         # Close the database connection and return the tax amount
         conn.close()
@@ -106,14 +106,14 @@ class Taxes(models.Model):
 class Education(models.Model):
     demographics = models.ForeignKey(Demographics, on_delete=models.CASCADE)
     enrolled = models.BooleanField()
-    college_expenses = models.FloatField(blank=True, null=True)
-    student_loan_interest = models.FloatField(blank=True, null=True)
-    scholarships_received = models.FloatField(blank=True, null=True)
+    college_expenses = models.FloatField()
+    student_loan_interest = models.FloatField()
+    scholarships_received = models.FloatField()
 
 class Home(models.Model):
     demographics = models.ForeignKey(Demographics, on_delete=models.CASCADE)
     own = models.BooleanField()
-    interest_taxes = models.FloatField(blank=True, null=True)
+    interest_taxes = models.FloatField()
 
 class Vehicle(models.Model):
     demographics = models.ForeignKey(Demographics, on_delete=models.CASCADE)

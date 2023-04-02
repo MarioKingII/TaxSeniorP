@@ -3,11 +3,14 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    
     <label for="medical_expenses">Total or estimated medical expenses for the year:</label>
-    <input type="number" name="medical_expenses">
+    <input type="float" name="medical_expenses" required>
     <br>
-    <button type="submit">Next</button>
-    <button type="button" onclick="history.back()">Back</button>
+    <div class ="button_container">
+      <button class = "back" onclick="history.back()">Back</button>
+      <button type="next">Next</button>
+    </div>
 
     </form>
 {% endblock %}

@@ -3,11 +3,14 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    
     <label for="taxes_registration">Total taxes and registration fees for vehicles:</label>
-    <input type="number" name="taxes_registration">
+    <input type="float" name="taxes_registration" required>
     <br>
-    <button type="submit">Next</button>
-    <button type="button" onclick="history.back()">Back</button>
+    <div class ="button_container">
+      <button class = "back" onclick="history.back()">Back</button>
+      <button type="next">Next</button>
+    </div>
 
   </form>
 {% endblock %}

@@ -3,11 +3,14 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    
     <label for="retirement_contributions">Total or estimated contributions to a 401K:</label>
-    <input type="number" name="retirement_contributions">
+    <input type="float" name="retirement_contributions" required>
     <br>
-    <button type="submit">Next</button>
-    <button type="button" onclick="history.back()">Back</button>
+    <div class ="button_container">
+      <button class = "back" onclick="history.back()">Back</button>
+      <button type="next">Next</button>
+    </div>
 
   </form>
 {% endblock %}

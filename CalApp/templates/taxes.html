@@ -3,15 +3,18 @@
 {% block content %}
   <form method="post">
     {% csrf_token %}
+    
     <p>Enter your the projected amount the will be retained for federal taxes, 
        or if you already have have a W4 you can enter the amount on field #2. 
        
        If you have more that a W4 please enter add the amount and enter the total<p>
     <label for="federal_tax">Retained federal tax:</label>
-    <input type="number" name="federal_tax" required>
+    <input type="float" name="federal_tax" required>
     <br>
-    <button type="submit">Next</button>
-    <button type="button" onclick="history.back()">Back</button>
+    <div class ="button_container">
+      <button class = "back" onclick="history.back()">Back</button>
+      <button type="next">Next</button>
+    </div>
 
   </form>
 {% endblock %}
