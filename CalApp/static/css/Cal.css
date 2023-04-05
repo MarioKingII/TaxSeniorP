@@ -2,18 +2,19 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #194809;
+    background-color: #133907;
   }
 
 header {
     display: grid;
-    grid-template-columns: 1f 1f;
+    grid-template-columns: auto auto;
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;
     background-color: #FFFDE4;
-    align-items: center;
-    text-align: center;
+    /* align-items: center;
+    text-align: center; */
+    top: 80px;
     font-size: 1.5em
   }
   
@@ -33,12 +34,18 @@ form {
     display: flex;
     flex-direction: column;
     }
+
+.results-box {
+      display: grid;
+      padding: 1em;
+      grid-template-columns: 1fr 1fr;
+    }
     
 .right {
       display: grid;
       grid-column: 2;
       grid-row: 1;
-      background-color: rgba(15, 15, 197, 0.9);
+      background-color: rgba(205, 235, 122, 0.9);
       height: 12em;
       margin: 1em 1em;
       padding: 3em;
@@ -46,12 +53,11 @@ form {
         
     }
     
-    
 .left {
       display: grid;
       grid-column: 1;
       grid-row: 1;
-      background-color: rgba(202, 33, 33, 0.9);
+      background-color: rgba(205, 235, 122, 0.9);
       height: 12em;
       margin: 1em 1em;
       padding: 3em;
@@ -67,6 +73,15 @@ form {
 
 
 }
+
+/* .button_container a {
+  display: grid;
+    line-height: 2.5em;
+    width: 15em;
+    background-color: #ffca33;
+    font-size: 1em;
+    border-radius: 20px 20px 20px 20px;  
+} */
 
 button {
     display: grid;
@@ -114,17 +129,60 @@ table {
     border-collapse: collapse;
     width: 100%;
   }
-  
-th, td {
-    text-align: left;
-    padding: 8px;
+   
+  .logo-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFDE4;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5em;
   }
-  
-th {
-    background-color: #007bff;
-    color: #fff;
+
+  .logo-box img {
+    grid-column: 1;
+    grid-row: 2;
+
   }
+
+  .logo-box h1 {
+    color: rgb(9, 56, 25);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    padding: 10px;
+  }
+
+  #datetime {
+    color: rgb(255, 251, 132); 
+    font-size: 24px; 
+    position: absolute; 
+    bottom: 30px;
+    right: 50px; 
+}
   
-tr:nth-child(even) {
+  .progress-container {
+    width: 100%;
+    height: 30px;
     background-color: #f2f2f2;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+  }
+
+  .highlight  {
+    color: red;
+    font-size: 1.1em;
+    font-weight: bold;
   }

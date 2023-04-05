@@ -18,10 +18,12 @@ class TaxCalculation(models.Model):
     interest_taxes = models.FloatField()
     medical_expenses = models.FloatField()
     retirement_contributions = models.FloatField()
+    scholarships_received = models.FloatField()
  
+
     def calculate_standard_tax(self):
         
-        taxable_income_stand = self.gross_income - self.standard_deduction
+        taxable_income_stand = (self.gross_income - self.standard_deduction) + self.scholarships_received - self.retirement_contributions
         
         conn = sqlite3.connect('tax_brackets.db')
         cursor = conn.cursor()
@@ -51,11 +53,11 @@ class TaxCalculation(models.Model):
 
     def calculate_itemized_tax(self):
 
-        deductible_medical_expenses = self.gross_income - self.student_loan_interest * 0.075
+        deductible_medical_expenses = self.gross_income * 0.075
         if self.medical_expenses < deductible_medical_expenses:
             self.medical_expenses = 0
 
-        taxable_income_itemized = self.gross_income - self.charitable_contributions - self.college_expenses - self.taxes_registration - self.interest_taxes - self.medical_expenses - self.retirement_contributions
+        taxable_income_itemized = self.gross_income - self.charitable_contributions - self.college_expenses - self.student_loan_interest + self.scholarships_received - self.taxes_registration - self.interest_taxes - self.medical_expenses - self.retirement_contributions
 
         conn = sqlite3.connect('tax_brackets.db')
         cursor = conn.cursor()

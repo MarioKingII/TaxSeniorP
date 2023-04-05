@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <form method="post">
@@ -6,15 +7,16 @@
     
     <p>Enter your projected total gross income, or if you already have have a 
       W4 you can enter the amount on field #1
-      If you have more that a W4 please enter add the amounts, and enter the total combined.
+      If you have more that one W4 please enter add the amounts, and enter the total combined.
     </p>
     <label for="gross_income">Total gross income:</label>
     <input type="float" name="gross_income" required>
     <br>
     <div class ="button_container">
-      <button class = "back" onclick="history.back()">Back</button>
+      <button onclick="window.location.href='{% url 'demographics_view' %}'">Back</button>
       <button type="next">Next</button>
     </div>
     
   </form>
+  
 {% endblock %}

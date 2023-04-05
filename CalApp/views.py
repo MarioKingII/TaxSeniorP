@@ -12,12 +12,13 @@ def demographics_view(request):
         form = FillingStatusForm(request.POST)
         if form.is_valid():
             filling_status = form.cleaned_data['filling_status']
-            demographics = Demographics.objects.create(name=name, age=age, filling_status=filling_status )
+            
+            demographics = Demographics.objects.create(name=name, age=age, filling_status=filling_status)
             request.session['demographics_id'] = demographics.id
             return redirect(income_view)
     else:
         form = FillingStatusForm()        
-    return render(request, 'demographics.html', {'filling_status': filling_status, 'form': form})
+    return render(request, 'demographics.html', {'filling_status': filling_status, 'form': form })
 
 def income_view(request):
     demographics_id = request.session.get('demographics_id')
@@ -27,7 +28,8 @@ def income_view(request):
         income = Income.objects.create(demographics_id=demographics_id, gross_income=gross_income)
         request.session['income_id'] = income.id
         return redirect(taxes_view)
-    return render(request, 'income.html', {'gross_income': gross_income})
+    
+    return render(request, 'income.html', {'gross_income': gross_income,})
 
 def taxes_view(request):
     demographics_id = request.session.get('demographics_id')
@@ -131,6 +133,7 @@ def result(request):
         college_expenses = education.college_expenses
         student_loan_interest = education.student_loan_interest
         name = demographics.name
+        scholarships_received = education.scholarships_received
 
         taxes_registration = vehicle.taxes_registration
         interest_taxes = home.interest_taxes
@@ -147,35 +150,45 @@ def result(request):
             taxes_registration=taxes_registration, 
             interest_taxes=interest_taxes,
             medical_expenses=medical_expenses,
-            retirement_contributions=retirement_contributions)
+            retirement_contributions=retirement_contributions,
+            scholarships_received=scholarships_received)
         
         tax_s = calculation.calculate_standard_tax()
         tax_i = calculation.calculate_itemized_tax()
 
-        tax_rate_s, retun_stand, TS = tax_s
+        tax_rate_s, return_stand, TS = tax_s
         tax_rate_i, return_itemized, TI = tax_i
 
         tax_rate_i = tax_rate_i * 100
         tax_rate_s = tax_rate_s * 100
 
         message_s = 'owe'
-        if retun_stand < 0:
-            retun_stand = retun_stand * -1
+        if return_stand < 0:
+            return_stand = return_stand * -1
             message_s = 'receive'
+
 
         message_i = 'owe'
         if return_itemized < 0:
             return_itemized = return_itemized * -1
             message_i = 'receive'
-        
+
         IvsS = 'itemized'
-        if retun_stand > return_itemized:
-             IvsS = 'standard deduction'
+        if message_i == "owe":
+            if message_s == 'owe':
+                if return_stand < return_itemized:
+                    IvsS = 'standard deduction'
+            else:
+                    IvsS = 'standard deduction'
+        else:
+            if message_s == 'receive':
+                if return_stand > return_itemized:
+                    IvsS = 'standard deduction'
 
-
-        return render(request, 'result.html', {'retun_itemized': return_itemized,
-                                            'retun_stand': retun_stand,
-                                            'federal_tax': federal_tax,
+        return render(request, 'result.html', {'retun_itemized': "{:,.2f}".format(return_itemized),
+                                            'return_stand': "{:,.2f}".format(return_stand),
+                                            'gross_income': "{:,.2f}".format(gross_income),
+                                            'federal_tax': "{:,.2f}".format(federal_tax),
                                             'filling_status':filling_status,
                                             'tax_rate_s':'{:.0f}%'.format(tax_rate_s),
                                             'tax_rate_i':'{:.0f}%'.format(tax_rate_i),
@@ -185,8 +198,9 @@ def result(request):
                                             'taxes_registration':taxes_registration, 
                                             'interest_taxes':interest_taxes,
                                             'medical_expenses':medical_expenses,
-                                            'TS':TS,
-                                            'TI':TI,
+                                            'scholarships_received':scholarships_received,
+                                            'TS':"{:,.2f}".format(TS),
+                                            'TI':"{:,.2f}".format(TI),
                                             'message_i': message_i,
                                             'message_s': message_s,
                                             'name':name,

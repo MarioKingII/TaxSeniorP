@@ -4,11 +4,9 @@
   <form method="post">
     {% csrf_token %}
     
-    <p></p>
     <!-- <label for="enrolled">Enrolled in undergraduate program:</label>
     <input type="checkbox" name="enrolled" value="True"> -->
     <br>
-    <p></p>
     <label for="college_expenses">College expenses:</label><p> Enter the total projected amount will pay on tution 
       or the amount on your 1098-T if you have received.</p>
 
@@ -23,7 +21,7 @@
     <input type="float" name="scholarships_received" required>
     <br>
     <div class ="button_container">
-      <button class = "back" onclick="history.back()">Back</button>
+      <button onclick="window.location.href='{% url 'taxes_view' %}'">Back</button>
       <button type="next">Next</button>
     </div>
   </form>

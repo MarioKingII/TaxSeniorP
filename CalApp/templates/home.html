@@ -6,8 +6,8 @@
     
     
     
-    <label for="own">Do you own a house:</label>
-    <input type="checkbox" name="own" value="True">
+    <!-- <label for="own">Do you own a house:</label>
+    <input type="checkbox" name="own" value="True"> -->
     <br>
     <label for="interest_taxes">Total interest paid:</label><p> Enter the total projected amount of    
       home mortgage interest and points.</p>
@@ -16,7 +16,7 @@
     
     
     <div class ="button_container">
-      <button class = "back" onclick="history.back()">Back</button>
+      <button onclick="window.location.href='{% url 'education_view' %}'">Back</button>
       <button type="next">Next</button>
     </div>
   </form>
